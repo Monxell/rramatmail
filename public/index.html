@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0c0c0e">
+<title>Temp Mail</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0c0c0e; --panel:#17171a; --orange:#ff5b14; --blue:#9fb4f2; --cream:#ebe7de;
+  --green:#5fe04a; --yellow:#f7b92c; --ink:#0c0c0e; --mute:#8b8b93;
+}
+*{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
+html,body{background:var(--bg);color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
+button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+.app{max-width:460px;margin:0 auto;min-height:100dvh;padding:calc(env(safe-area-inset-top) + 20px) 16px 120px}
+.top{display:flex;align-items:center;gap:12px;margin-bottom:20px}
+.avatar{width:46px;height:46px;border-radius:50%;border:2px solid #fff;display:grid;place-items:center;background:var(--panel)}
+.top small{font-size:12px;color:#d6d6da;display:block}
+.top h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
+.bell{margin-left:auto;width:44px;height:44px;border-radius:50%;background:var(--panel);display:grid;place-items:center}
+.bell svg{transition:transform .5s}.bell.spin svg{transform:rotate(360deg)}
+
+.row{display:grid;grid-template-columns:1.05fr 1fr;gap:12px}
+.card{border-radius:30px;padding:18px}
+.orange{background:var(--orange);color:#fff}
+.orange h2,.blue h2{font-size:17px;font-weight:600;line-height:1.15;margin-bottom:12px}
+.pill{width:100%;display:flex;align-items:center;gap:8px;border:1.5px dashed rgba(255,255,255,.65);border-radius:18px;padding:9px 10px;margin-bottom:8px;text-align:left;background:rgba(255,255,255,.08)}
+.pill .ck{flex:none;width:20px;height:20px;border-radius:50%;background:#fff;color:var(--orange);display:grid;place-items:center}
+.pill .ck.off{background:none;border:1.5px solid #fff}
+.pill b{display:block;font-size:12.5px;font-weight:700;word-break:break-all;line-height:1.2}
+.pill span{font-size:10.5px;opacity:.85}
+.blue{background:var(--blue);color:var(--ink);display:flex;flex-direction:column}
+.blue small{font-size:11px;opacity:.7;margin-bottom:6px}
+.blue h2{font-size:21px;font-weight:700;margin-bottom:auto}
+.start{margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--cream);border-radius:40px;padding:5px 5px 5px 18px;font-weight:600;font-size:14px}
+.start i{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+
+.cream{margin-top:12px;background:var(--cream);color:var(--ink);display:flex;align-items:center;gap:14px;border-radius:30px;padding:16px 18px}
+.badge{width:54px;height:54px;border-radius:50%;background:var(--orange);display:grid;place-items:center;flex:none}
+.cream h3{font-size:18px;font-weight:700}.cream p{font-size:12px;color:#6d6a63}
+.ring{margin-left:auto;position:relative;width:54px;height:54px;flex:none}
+.ring svg{transform:rotate(-90deg)}
+.ring circle{fill:none;stroke-width:5}
+.ring .bg{stroke:#d9d4c9}.ring .fg{stroke:var(--orange);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px}
+
+.sec{margin:26px 4px 12px;display:flex;align-items:baseline;justify-content:space-between}
+.sec h2{font-size:21px;font-weight:600;letter-spacing:-.3px}.sec span{font-size:12px;color:var(--mute)}
+.tl{position:relative;padding-left:4px}
+.item{position:relative;display:flex;align-items:center;gap:14px;padding:0 0 22px 0;width:100%;text-align:left}
+.item::before{content:"";position:absolute;left:15px;top:34px;bottom:-4px;border-left:2px dashed #55555c}
+.item:last-child::before{display:none}
+.dot{flex:none;width:32px;height:32px;border-radius:50%;background:#e9e9ec;color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:13px;position:relative;z-index:1}
+.item.new .dot{box-shadow:0 0 0 5px rgba(95,224,74,.25)}
+.meta{min-width:0;flex:1}
+.meta b{display:block;font-size:15.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta span{font-size:12px;color:var(--mute);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.right{text-align:right;flex:none}
+.right time{font-size:11.5px;color:var(--mute);display:block;margin-bottom:6px}
+.open{background:var(--green);color:var(--ink);font-weight:700;font-size:14px;border-radius:30px;padding:11px 26px}
+.otp{background:var(--yellow);color:var(--ink);font-weight:800;letter-spacing:2px;border-radius:30px;padding:11px 18px;font-size:15px}
+.empty{background:var(--panel);border-radius:26px;padding:26px 20px;text-align:center;color:var(--mute);font-size:14px;line-height:1.5}
+.empty b{color:#fff;display:block;font-size:16px;margin-bottom:4px}
+
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 16px);width:min(428px,calc(100% - 32px));display:flex;align-items:center;gap:6px;background:var(--panel);border-radius:50px;padding:6px;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.nav button{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#cfcfd4;flex:none}
+.nav button.on{width:auto;flex:1;display:flex;gap:10px;justify-content:flex-start;padding:0 20px 0 6px;background:#0c0c0e;color:#fff;font-weight:600;font-size:16px}
+.nav button.on i{width:40px;height:40px;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center}
+.nav button:not(.on) i{display:contents}.nav button:not(.on) em{display:none}
+.nav .gap{flex:1}
+
+.view{display:none}.view.on{display:block}
+.dom{display:flex;align-items:center;gap:12px;background:var(--panel);border-radius:22px;padding:14px 16px;margin-bottom:10px;width:100%;text-align:left}
+.dom i{width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--ink);display:grid;place-items:center;font-style:normal;font-weight:800}
+.dom b{font-size:15px;font-weight:600}
+.box{background:var(--panel);border-radius:26px;padding:18px;margin-bottom:12px}
+.box h3{font-size:15px;margin-bottom:8px}.box p{font-size:12.5px;color:var(--mute);word-break:break-all;line-height:1.5}
+.btn{margin-top:12px;background:var(--cream);color:var(--ink);font-weight:700;font-size:14px;border-radius:30px;padding:12px 22px}
+.btn.o{background:var(--orange);color:#fff}
+
+.sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10;display:none;align-items:flex-end;justify-content:center}
+.sheet.on{display:flex}
+.panel{width:100%;max-width:460px;height:88dvh;background:var(--panel);border-radius:32px 32px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column;animation:up .25s ease-out}
+@keyframes up{from{transform:translateY(40px);opacity:0}}
+@media (prefers-reduced-motion:reduce){.panel{animation:none}.ring .fg,.bell svg{transition:none}}
+.ph{display:flex;gap:12px;align-items:flex-start}
+.ph h3{font-size:19px;line-height:1.2;flex:1}.ph small{color:var(--mute);font-size:12px;display:block;margin-top:4px;word-break:break-all}
+.x{width:38px;height:38px;border-radius:50%;background:#26262b;flex:none;display:grid;place-items:center}
+.otpbar{margin:14px 0 0;display:none;align-items:center;justify-content:space-between;background:var(--blue);color:var(--ink);border-radius:22px;padding:8px 8px 8px 18px}
+.otpbar.on{display:flex}.otpbar b{font-size:24px;letter-spacing:4px}.otpbar button{background:var(--ink);color:#fff;border-radius:30px;padding:10px 18px;font-weight:700;font-size:13px}
+iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:100%}
+.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);background:#fff;color:var(--ink);font-weight:600;font-size:13px;padding:10px 18px;border-radius:30px;opacity:0;pointer-events:none;transition:.25s;z-index:20}
+.toast.on{opacity:1;transform:translate(-50%,0)}
+</style>
+</head>
+<body>
+<div class="app">
+  <header class="top">
+    <div class="avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div>
+    <div><small>Halo! 📬</small><h1>Temp Mail</h1></div>
+    <button class="bell" id="refresh" aria-label="Segarkan inbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></button>
+  </header>
+
+  <section class="view on" id="v-home">
+    <div class="row">
+      <div class="card orange">
+        <h2>Email<br>Aktif</h2>
+        <button class="pill" id="copyMail"><span class="ck" id="mailCk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><div><b id="mail">Membuat…</b><span>Ketuk untuk salin</span></div></button>
+        <button class="pill" id="copyDom"><span class="ck off"></span><div><b id="dom">—</b><span>Domain</span></div></button>
+      </div>
+      <div class="card blue">
+        <small id="today"></small>
+        <h2>Ganti Alamat Email Baru</h2>
+        <button class="start" id="newMail">Buat <i><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></i></button>
+      </div>
+    </div>
+
+    <div class="cream">
+      <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H4z"/><path d="M4 16l4-4 3 3 4-5 5 6"/></svg></div>
+      <div><h3>Inbox</h3><p id="sub">Menunggu email…</p></div>
+      <div class="ring"><svg width="54" height="54" viewBox="0 0 54 54"><circle class="bg" cx="27" cy="27" r="22"/><circle class="fg" id="fg" cx="27" cy="27" r="22" stroke-dasharray="138.2" stroke-dashoffset="0"/></svg><b id="cnt">0</b></div>
+    </div>
+
+    <div class="sec"><h2>Pesan Masuk</h2><span id="auto">auto-refresh 6 dtk</span></div>
+    <div class="tl" id="list"></div>
+  </section>
+
+  <section class="view" id="v-dom">
+    <div class="sec" style="margin-top:6px"><h2>Domain Tersedia</h2><span id="domN"></span></div>
+    <div id="domList"></div>
+  </section>
+
+  <section class="view" id="v-set">
+    <div class="sec" style="margin-top:6px"><h2>Pengaturan</h2></div>
+    <div class="box"><h3>Token mailbox</h3><p id="tok">—</p><button class="btn" id="copyTok">Salin token</button></div>
+    <div class="box"><h3>Auto-refresh</h3><p>Cek pesan baru setiap 6 detik.</p><button class="btn" id="toggle">Jeda</button></div>
+    <div class="box"><h3>Hapus data</h3><p>Hapus token yang tersimpan di browser ini dan buat mailbox baru.</p><button class="btn o" id="reset">Reset</button></div>
+  </section>
+</div>
+
+<nav class="nav" aria-label="Navigasi">
+  <button class="on" data-v="home"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/></svg></i><em>Inbox</em></button>
+  <button data-v="dom" aria-label="Domain"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i><em>Domain</em></button>
+  <button data-v="set" aria-label="Pengaturan"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></i><em>Akun</em></button>
+</nav>
+
+<div class="sheet" id="sheet" role="dialog" aria-modal="true">
+  <div class="panel">
+    <div class="ph"><div style="flex:1;min-width:0"><h3 id="mSub"></h3><small id="mFrom"></small></div><button class="x" id="close" aria-label="Tutup"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="otpbar" id="otpbar"><span>Kode OTP<br><b id="otpv"></b></span><button id="copyOtp">Salin</button></div>
+    <iframe id="frame" sandbox="" title="Isi email"></iframe>
+  </div>
+</div>
+<div class="toast" id="toast"></div>
+
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const POLL = 6, CIRC = 138.2;
+let token = null, address = '', seen = new Set(), paused = false, tick = POLL, msgs = [];
+
+const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
+
+async function api(path, opt = {}) {
+  const r = await fetch('/api/' + path, { ...opt, headers: { ...(token ? { Authorization: 'Bearer ' + token } : {}), ...(opt.headers || {}) } });
+  const j = await r.json().catch(() => ({}));
+  if (!r.ok) throw new Error(j.error || 'Terjadi kesalahan (' + r.status + ')');
+  return j;
+}
+function toast(t) { const e = $('toast'); e.textContent = t; e.classList.add('on'); clearTimeout(toast.t); toast.t = setTimeout(() => e.classList.remove('on'), 1800); }
+async function copy(text, label) { try { await navigator.clipboard.writeText(text); toast(label + ' disalin'); } catch { toast('Gagal menyalin'); } }
+const pickAddr = (m) => m?.mailbox || m?.email || m?.address || '';
+const toList = (r) => (Array.isArray(r) ? r : r?.messages || r?.data || []);
+const timeOf = (m) => { const d = new Date(m.receivedAt || m.createdAt || m.date || Date.now()); return isNaN(d) ? '' : d.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' }); };
+const fromOf = (m) => (typeof m.from === 'string' ? m.from : m.from?.address || m.from?.name || m.sender || 'Pengirim');
+const idOf = (m) => m._id || m.id;
+const otpOf = (t) => { const x = String(t || '').match(/\b(\d{4,8})\b/); return x ? x[1] : null; };
+
+function setMailbox(m) {
+  address = pickAddr(m) || address;
+  $('mail').textContent = address || '—';
+  $('dom').textContent = address.split('@')[1] || '—';
+  $('tok').textContent = token || '—';
+}
+
+async function newMailbox() {
+  $('mail').textContent = 'Membuat…'; seen = new Set(); msgs = []; render();
+  try {
+    const m = await api('mailbox', { method: 'POST' });
+    token = m.token || m.access_token; store.set('tm_token', token); store.set('tm_addr', pickAddr(m));
+    setMailbox(m); toast('Email baru siap');
+  } catch (e) { $('mail').textContent = 'Gagal'; toast(e.message); }
+}
+
+async function init() {
+  $('today').textContent = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
+  token = store.get('tm_token'); address = store.get('tm_addr') || '';
+  if (token) {
+    try { const m = await api('mailbox'); setMailbox({ mailbox: pickAddr(m) || address }); }
+    catch { token = null; }
+  }
+  if (!token) await newMailbox();
+  await poll();
+}
+
+async function poll() {
+  if (!token) return;
+  try { msgs = toList(await api('messages')); } catch (e) { if (/401|403|token/i.test(e.message)) { token = null; await newMailbox(); } }
+  render();
+}
+
+function render() {
+  const fresh = msgs.filter((m) => !seen.has(idOf(m))).length;
+  $('cnt').textContent = msgs.length;
+  $('sub').textContent = msgs.length ? msgs.length + ' pesan' + (fresh ? ' · ' + fresh + ' baru' : '') : 'Menunggu email masuk…';
+  if (!msgs.length) {
+    $('list').innerHTML = '<div class="empty"><b>Belum ada pesan</b>Pakai alamat di atas untuk daftar atau verifikasi. Email yang masuk muncul di sini otomatis.</div>';
+    return;
+  }
+  $('list').innerHTML = msgs.map((m) => {
+    const otp = otpOf((m.subject || '') + ' ' + (m.bodyPreview || ''));
+    return `<button class="item ${seen.has(idOf(m)) ? '' : 'new'}" data-id="${esc(idOf(m))}">
+      <span class="dot">${esc(fromOf(m).trim().charAt(0).toUpperCase() || '?')}</span>
+      <span class="meta"><b>${esc(m.subject || '(tanpa subjek)')}</b><span>${esc(fromOf(m))}</span></span>
+      <span class="right"><time>${esc(timeOf(m))}</time><span class="${otp ? 'otp' : 'open'}">${otp ? esc(otp) : 'Buka'}</span></span></button>`;
+  }).join('');
+}
+
+async function openMsg(id) {
+  seen.add(id); render();
+  const base = msgs.find((m) => idOf(m) === id) || {};
+  $('mSub').textContent = base.subject || '(tanpa subjek)'; $('mFrom').textContent = fromOf(base);
+  $('frame').srcdoc = '<body style="font-family:sans-serif;color:#555;padding:20px">Memuat…</body>';
+  $('sheet').classList.add('on');
+  try {
+    const m = await api('messages/' + encodeURIComponent(id));
+    let html = m.bodyHtml || m.html || '';
+    const text = m.bodyPlain || m.text || m.bodyPreview || base.bodyPreview || '';
+    if (!html && !text) html = '<pre style="white-space:pre-wrap;font-family:inherit">' + esc((await api('messages/' + encodeURIComponent(id) + '/source')).source) + '</pre>';
+    $('frame').srcdoc = html || '<pre style="white-space:pre-wrap;font-family:sans-serif;padding:16px">' + esc(text) + '</pre>';
+    const otp = otpOf(m.subject + ' ' + text + ' ' + html.replace(/<[^>]+>/g, ' '));
+    $('otpbar').classList.toggle('on', !!otp); $('otpv').textContent = otp || '';
+  } catch (e) { $('frame').srcdoc = '<body style="font-family:sans-serif;padding:20px">' + esc(e.message) + '</body>'; }
+}
+
+async function loadDomains() {
+  try {
+    const d = await api('domains'); const arr = Array.isArray(d) ? d : d?.domains || [];
+    $('domN').textContent = arr.length + ' domain';
+    $('domList').innerHTML = arr.map((x) => { const n = typeof x === 'string' ? x : x.name || x.domain || JSON.stringify(x); return `<div class="dom"><i>@</i><b>${esc(n)}</b></div>`; }).join('') || '<div class="empty">Tidak ada data domain.</div>';
+  } catch (e) { $('domList').innerHTML = '<div class="empty"><b>Gagal memuat</b>' + esc(e.message) + '</div>'; }
+}
+
+function view(v) {
+  document.querySelectorAll('.view').forEach((e) => e.classList.toggle('on', e.id === 'v-' + v));
+  document.querySelectorAll('.nav button').forEach((b) => b.classList.toggle('on', b.dataset.v === v));
+  if (v === 'dom') loadDomains();
+}
+
+function loop() {
+  if (!paused) {
+    tick--; if (tick <= 0) { tick = POLL; poll(); }
+  }
+  $('fg').style.strokeDashoffset = CIRC * (1 - tick / POLL);
+}
+
+document.querySelectorAll('.nav button').forEach((b) => b.onclick = () => view(b.dataset.v));
+$('list').onclick = (e) => { const b = e.target.closest('.item'); if (b) openMsg(b.dataset.id); };
+$('close').onclick = () => $('sheet').classList.remove('on');
+$('sheet').onclick = (e) => { if (e.target.id === 'sheet') $('sheet').classList.remove('on'); };
+$('copyMail').onclick = () => address && copy(address, 'Email');
+$('copyDom').onclick = () => address && copy(address.split('@')[1], 'Domain');
+$('copyOtp').onclick = () => copy($('otpv').textContent, 'OTP');
+$('copyTok').onclick = () => token && copy(token, 'Token');
+$('newMail').onclick = async () => { await newMailbox(); await poll(); };
+$('reset').onclick = async () => { store.set('tm_token', null); store.set('tm_addr', null); token = null; await newMailbox(); view('home'); };
+$('toggle').onclick = () => { paused = !paused; $('toggle').textContent = paused ? 'Lanjutkan' : 'Jeda'; $('auto').textContent = paused ? 'auto-refresh jeda' : 'auto-refresh 6 dtk'; };
+$('refresh').onclick = async () => { $('refresh').classList.add('spin'); tick = POLL; await poll(); setTimeout(() => $('refresh').classList.remove('spin'), 500); };
+
+init(); setInterval(loop, 1000);
+</script>
+</body>
+</html>
