@@ -3,119 +3,133 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0c0c0e">
-<title>Temp Mail</title>
+<meta name="theme-color" content="#eceff4">
+<title>rramatemp</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 :root{
-  --bg:#0c0c0e; --panel:#17171a; --orange:#ff5b14; --blue:#9fb4f2; --cream:#ebe7de;
-  --green:#5fe04a; --yellow:#f7b92c; --ink:#0c0c0e; --mute:#8b8b93;
+  color-scheme:light;
+  --bg:#eceff4; --card:#fff; --field:#f1f4f9; --line:#e6eaf2;
+  --navy:#0b1f3f; --navy2:#0a1a35; --ink:#0f1b33; --mute:#7b8497;
+  --accent:#3b6fd8; --soft:#dbe6fb; --soft2:#eef3fd; --lite:#8fb4ff;
+  --ok-bg:#e3f6e9; --ok:#1d8a45; --err-bg:#fde9e6; --err:#c2371f;
+  --shadow:0 10px 30px rgba(15,27,51,.08);
 }
 *{box-sizing:border-box;margin:0;-webkit-tap-highlight-color:transparent}
-html,body{background:var(--bg);color:#fff;font-family:'Plus Jakarta Sans',system-ui,sans-serif}
-button{font:inherit;color:inherit;border:0;background:none;cursor:pointer}
-button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
+html,body{background:var(--bg);color:var(--ink);font-family:'Plus Jakarta Sans',system-ui,sans-serif}
+button{font:inherit;color:inherit;border:0;background:none;cursor:pointer;-webkit-touch-callout:none;touch-action:manipulation}
+button:focus-visible,.acc:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
 .app{max-width:460px;margin:0 auto;min-height:100dvh;padding:calc(env(safe-area-inset-top) + 20px) 16px 120px}
+
+/* header */
 .top{display:flex;align-items:center;gap:12px;margin-bottom:20px}
-.avatar{width:46px;height:46px;border-radius:50%;border:2px solid #fff;display:grid;place-items:center;background:var(--panel)}
-.top small{font-size:12px;color:#d6d6da;display:block}
-.top h1{font-size:22px;font-weight:700;letter-spacing:-.3px}
-.bell{margin-left:auto;width:44px;height:44px;border-radius:50%;background:var(--panel);display:grid;place-items:center}
+.avatar{width:48px;height:48px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center}
+.top small{font-size:12.5px;color:var(--mute);display:block;font-weight:600}
+.top h1{font-size:22px;font-weight:800;letter-spacing:-.3px}
+.bell{margin-left:auto;width:46px;height:46px;border-radius:50%;background:var(--card);box-shadow:var(--shadow);display:grid;place-items:center}
 .bell svg{transition:transform .5s}.bell.spin svg{transform:rotate(360deg)}
 
+/* home cards */
 .row{display:grid;grid-template-columns:1.05fr 1fr;gap:12px}
-.card{border-radius:30px;padding:18px}
-.orange{background:var(--orange);color:#fff}
-.orange h2,.blue h2{font-size:17px;font-weight:600;line-height:1.15;margin-bottom:12px}
-.pill{width:100%;display:flex;align-items:center;gap:8px;border:1.5px dashed rgba(255,255,255,.65);border-radius:18px;padding:9px 10px;margin-bottom:8px;text-align:left;background:rgba(255,255,255,.08)}
-.pill .ck{flex:none;width:20px;height:20px;border-radius:50%;background:#fff;color:var(--orange);display:grid;place-items:center}
-.pill .ck.off{background:none;border:1.5px solid #fff}
+.card{border-radius:28px;padding:18px}
+.navy{position:relative;overflow:hidden;background:linear-gradient(135deg,#0e2a54,var(--navy2) 75%);color:#fff}
+.navy::after{content:"";position:absolute;right:-40px;top:-50px;width:150px;height:150px;border-radius:50%;background:radial-gradient(circle,rgba(143,180,255,.22),transparent 70%);pointer-events:none}
+.navy>*{position:relative;z-index:1}
+.navy h2,.blue h2{font-size:17px;font-weight:700;line-height:1.15;margin-bottom:12px}
+.pill{width:100%;display:flex;align-items:center;gap:8px;border:1.5px dashed rgba(255,255,255,.4);border-radius:18px;padding:9px 10px;margin-bottom:8px;text-align:left;background:rgba(255,255,255,.1)}
+.pill:last-child{margin-bottom:0}
+.pill .ck{flex:none;width:20px;height:20px;border-radius:50%;background:#fff;color:var(--navy);display:grid;place-items:center}
+.pill .ck.off{background:none;border:1.5px solid rgba(255,255,255,.8)}
 .pill b{display:block;font-size:12.5px;font-weight:700;word-break:break-all;line-height:1.2}
-.pill span{font-size:10.5px;opacity:.85}
-.blue{background:var(--blue);color:var(--ink);display:flex;flex-direction:column}
-.blue small{font-size:11px;opacity:.7;margin-bottom:6px}
-.blue h2{font-size:21px;font-weight:700;margin-bottom:auto}
-.start{margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:var(--cream);border-radius:40px;padding:5px 5px 5px 18px;font-weight:600;font-size:14px}
-.start i{width:44px;height:44px;border-radius:50%;background:var(--ink);color:#fff;display:grid;place-items:center}
+.pill span{font-size:10.5px;opacity:.75}
+.blue{background:linear-gradient(180deg,var(--soft),var(--soft2));border:1px solid #fff;color:var(--ink);display:flex;flex-direction:column}
+.blue small{font-size:11px;color:var(--mute);font-weight:600;margin-bottom:6px}
+.blue h2{font-size:20px;font-weight:800;margin-bottom:auto}
+.start{margin-top:14px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-radius:40px;padding:5px 5px 5px 18px;font-weight:700;font-size:14px;color:var(--navy);box-shadow:0 6px 16px rgba(15,27,51,.08)}
+.start i{width:44px;height:44px;border-radius:50%;background:var(--navy);color:#fff;display:grid;place-items:center}
 
-.cream{margin-top:12px;background:var(--cream);color:var(--ink);display:flex;align-items:center;gap:14px;border-radius:30px;padding:16px 18px}
-.badge{width:54px;height:54px;border-radius:50%;background:var(--orange);display:grid;place-items:center;flex:none}
-.cream h3{font-size:18px;font-weight:700}.cream p{font-size:12px;color:#6d6a63}
+.inbox{margin-top:12px;background:var(--card);box-shadow:var(--shadow);display:flex;align-items:center;gap:14px;border-radius:28px;padding:16px 18px}
+.badge{width:54px;height:54px;border-radius:50%;background:linear-gradient(135deg,#0e2a54,var(--navy2));display:grid;place-items:center;flex:none}
+.inbox h3{font-size:18px;font-weight:800}.inbox p{font-size:12px;color:var(--mute);font-weight:500}
 .ring{margin-left:auto;position:relative;width:54px;height:54px;flex:none}
 .ring svg{transform:rotate(-90deg)}
 .ring circle{fill:none;stroke-width:5}
-.ring .bg{stroke:#d9d4c9}.ring .fg{stroke:var(--orange);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
-.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px}
+.ring .bg{stroke:var(--line)}.ring .fg{stroke:var(--accent);stroke-linecap:round;transition:stroke-dashoffset 1s linear}
+.ring b{position:absolute;inset:0;display:grid;place-items:center;font-size:13px;font-weight:800;color:var(--navy)}
 
+/* timeline */
 .sec{margin:26px 4px 12px;display:flex;align-items:baseline;justify-content:space-between}
-.sec h2{font-size:21px;font-weight:600;letter-spacing:-.3px}.sec span{font-size:12px;color:var(--mute)}
+.sec h2{font-size:21px;font-weight:800;letter-spacing:-.3px}.sec span{font-size:12px;color:var(--mute);font-weight:600}
 .tl{position:relative;padding-left:4px}
 .item{position:relative;display:flex;align-items:center;gap:14px;padding:0 0 22px 0;width:100%;text-align:left}
-.item::before{content:"";position:absolute;left:15px;top:34px;bottom:-4px;border-left:2px dashed #55555c}
+.item::before{content:"";position:absolute;left:15px;top:34px;bottom:-4px;border-left:2px dashed #c3cbdb}
 .item:last-child::before{display:none}
-.dot{flex:none;width:32px;height:32px;border-radius:50%;background:#e9e9ec;color:var(--ink);display:grid;place-items:center;font-weight:800;font-size:13px;position:relative;z-index:1}
-.item.new .dot{box-shadow:0 0 0 5px rgba(95,224,74,.25)}
+.dot{flex:none;width:32px;height:32px;border-radius:50%;background:var(--card);box-shadow:0 2px 8px rgba(15,27,51,.12);color:var(--navy);display:grid;place-items:center;font-weight:800;font-size:13px;position:relative;z-index:1}
+.item.new .dot{background:var(--navy);color:#fff;box-shadow:0 0 0 5px rgba(59,111,216,.22)}
 .meta{min-width:0;flex:1}
-.meta b{display:block;font-size:15.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.meta b{display:block;font-size:15.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .meta span{font-size:12px;color:var(--mute);display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
 .right{text-align:right;flex:none}
-.right time{font-size:11.5px;color:var(--mute);display:block;margin-bottom:6px}
-.open{background:var(--green);color:var(--ink);font-weight:700;font-size:14px;border-radius:30px;padding:11px 26px}
-.otp{background:var(--yellow);color:var(--ink);font-weight:800;letter-spacing:2px;border-radius:30px;padding:11px 18px;font-size:15px}
-.empty{background:var(--panel);border-radius:26px;padding:26px 20px;text-align:center;color:var(--mute);font-size:14px;line-height:1.5}
-.empty b{color:#fff;display:block;font-size:16px;margin-bottom:4px}
+.right time{font-size:11.5px;color:var(--mute);display:block;margin-bottom:6px;font-weight:600}
+.open{display:inline-block;background:linear-gradient(135deg,#0e2a54,var(--navy2));color:#fff;font-weight:700;font-size:14px;border-radius:30px;padding:11px 26px}
+.otp{display:inline-block;background:var(--soft);color:var(--navy);font-weight:800;letter-spacing:2px;border-radius:30px;padding:11px 18px;font-size:15px}
+.empty{background:var(--card);box-shadow:var(--shadow);border-radius:26px;padding:26px 20px;text-align:center;color:var(--mute);font-size:14px;line-height:1.5}
+.empty b{color:var(--ink);display:block;font-size:16px;margin-bottom:4px}
 
-.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 14px);width:min(428px,calc(100% - 28px));display:flex;align-items:center;gap:4px;background:var(--panel);border-radius:50px;padding:6px;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-.nav button{flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;gap:10px;color:#cfcfd4;font-weight:700;font-size:15px;white-space:nowrap;transition:background .2s,color .2s}
-.nav button.on{flex:1;width:auto;justify-content:flex-start;padding:0 16px 0 4px;border-radius:44px;background:var(--ink);color:#fff}
+/* bottom nav */
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 14px);width:min(428px,calc(100% - 28px));display:flex;align-items:center;gap:4px;background:var(--card);border-radius:50px;padding:6px;z-index:5;box-shadow:0 12px 34px rgba(15,27,51,.16)}
+.nav button{flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;gap:10px;color:#6b7488;font-weight:700;font-size:15px;white-space:nowrap;transition:background .2s,color .2s}
+.nav button.on{flex:1;width:auto;justify-content:flex-start;padding:0 16px 0 4px;border-radius:44px;background:var(--navy);color:#fff}
 .nav .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
-.nav button.on .ic{background:var(--yellow);color:var(--ink)}
+.nav button.on .ic{background:var(--soft);color:var(--navy)}
 .nav .lb{display:none}.nav button.on .lb{display:inline}
-.acc{display:flex;align-items:center;gap:12px;background:var(--panel);border:2px solid transparent;border-radius:26px;padding:12px 12px 12px 14px;margin-bottom:10px;width:100%;text-align:left}
-.acc.on{border-color:var(--orange)}
-.acc .av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--ink);display:grid;place-items:center;font-weight:800}
-.acc.on .av{background:var(--orange);color:#fff}
-.acc .t{flex:1;min-width:0}.acc .t b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.acc .t span{font-size:12px;color:var(--mute)}
-.acc .n{flex:none;min-width:28px;height:28px;border-radius:14px;background:var(--green);color:var(--ink);font-weight:800;font-size:13px;display:grid;place-items:center;padding:0 8px}
-.acc .n.z{background:#26262b;color:var(--mute)}.acc .n.ex{background:#3a1e14;color:#ff8a5c;font-size:11px}
-.acc .del{flex:none;width:36px;height:36px;border-radius:50%;background:#26262b;display:grid;place-items:center;color:#ff8a5c}
-.view{display:none}.view.on{display:block}
-.dom{display:flex;align-items:center;gap:12px;background:var(--panel);border-radius:22px;padding:14px 16px;margin-bottom:10px;width:100%;text-align:left}
-.dom i{width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--ink);display:grid;place-items:center;font-style:normal;font-weight:800}
-.dom b{font-size:15px;font-weight:600}
-.box{background:var(--panel);border-radius:26px;padding:18px;margin-bottom:12px}
-.box h3{font-size:15px;margin-bottom:8px}.box p{font-size:12.5px;color:var(--mute);word-break:break-all;line-height:1.5}
-.btn{margin-top:12px;background:var(--cream);color:var(--ink);font-weight:700;font-size:14px;border-radius:30px;padding:12px 22px}
-.btn.o{background:var(--orange);color:#fff}
 
-.sheet{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:10;display:none;align-items:flex-end;justify-content:center}
+/* accounts */
+.acc{display:flex;align-items:center;gap:12px;background:var(--card);box-shadow:var(--shadow);border:2px solid transparent;border-radius:26px;padding:12px 12px 12px 14px;margin-bottom:10px;width:100%;text-align:left;cursor:pointer}
+.acc.on{border-color:var(--accent)}
+.acc .av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--soft);color:var(--navy);display:grid;place-items:center;font-weight:800}
+.acc.on .av{background:var(--navy);color:#fff}
+.acc .t{flex:1;min-width:0}.acc .t b{display:block;font-size:14.5px;font-weight:700;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc .t span{font-size:12px;color:var(--mute)}
+.acc .n{flex:none;min-width:28px;height:28px;border-radius:14px;background:var(--navy);color:#fff;font-weight:800;font-size:13px;display:grid;place-items:center;padding:0 8px}
+.acc .n.z{background:var(--field);color:var(--mute)}.acc .n.ex{background:var(--err-bg);color:var(--err);font-size:11px}
+.acc .del{flex:none;width:36px;height:36px;border-radius:50%;background:var(--field);display:grid;place-items:center;color:var(--err)}
+.view{display:none}.view.on{display:block}
+.box{background:var(--card);box-shadow:var(--shadow);border-radius:26px;padding:18px;margin-bottom:12px}
+.box h3{font-size:15px;font-weight:800;margin-bottom:8px}.box p{font-size:12.5px;color:var(--mute);word-break:break-all;line-height:1.5}
+.btn{margin-top:12px;background:var(--field);color:var(--navy);font-weight:700;font-size:14px;border-radius:30px;padding:12px 22px}
+.btn.o{background:linear-gradient(135deg,#0e2a54,var(--navy2));color:#fff}
+.btn.dg{background:var(--err-bg);color:var(--err)}
+
+/* message sheet */
+.sheet{position:fixed;inset:0;background:rgba(11,31,63,.45);z-index:10;display:none;align-items:flex-end;justify-content:center}
 .sheet.on{display:flex}
-.panel{width:100%;max-width:460px;height:88dvh;background:var(--panel);border-radius:32px 32px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column;animation:up .25s ease-out}
+.panel{width:100%;max-width:460px;height:88dvh;background:var(--card);border-radius:32px 32px 0 0;padding:20px 18px calc(env(safe-area-inset-bottom) + 18px);display:flex;flex-direction:column;animation:up .25s ease-out;box-shadow:0 -20px 60px rgba(11,31,63,.2)}
 @keyframes up{from{transform:translateY(40px);opacity:0}}
 @media (prefers-reduced-motion:reduce){.panel{animation:none}.ring .fg,.bell svg{transition:none}}
 .ph{display:flex;gap:12px;align-items:flex-start}
-.ph h3{font-size:19px;line-height:1.2;flex:1}.ph small{color:var(--mute);font-size:12px;display:block;margin-top:4px;word-break:break-all}
-.x{width:38px;height:38px;border-radius:50%;background:#26262b;flex:none;display:grid;place-items:center}
-.otpbar{margin:14px 0 0;display:none;align-items:center;justify-content:space-between;background:var(--blue);color:var(--ink);border-radius:22px;padding:8px 8px 8px 18px}
-.otpbar.on{display:flex}.otpbar b{font-size:24px;letter-spacing:4px}.otpbar button{background:var(--ink);color:#fff;border-radius:30px;padding:10px 18px;font-weight:700;font-size:13px}
-iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:100%}
-.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);background:#fff;color:var(--ink);font-weight:600;font-size:13px;padding:10px 18px;border-radius:30px;opacity:0;pointer-events:none;transition:.25s;z-index:20}
+.ph h3{font-size:19px;line-height:1.2;flex:1;font-weight:800}.ph small{color:var(--mute);font-size:12px;display:block;margin-top:4px;word-break:break-all}
+.x{width:38px;height:38px;border-radius:50%;background:var(--field);flex:none;display:grid;place-items:center}
+.otpbar{margin:14px 0 0;display:none;align-items:center;justify-content:space-between;background:linear-gradient(180deg,var(--soft),var(--soft2));color:var(--navy);border-radius:22px;padding:8px 8px 8px 18px;font-size:12px;font-weight:600}
+.otpbar.on{display:flex}.otpbar b{font-size:24px;letter-spacing:4px;font-weight:800}
+.otpbar button{background:var(--navy);color:#fff;border-radius:30px;padding:10px 18px;font-weight:700;font-size:13px}
+iframe{flex:1;margin-top:14px;border:1px solid var(--line);border-radius:20px;background:#fff;width:100%}
+.toast{position:fixed;left:50%;bottom:100px;transform:translate(-50%,20px);background:var(--navy);color:#fff;font-weight:600;font-size:13px;padding:10px 18px;border-radius:30px;opacity:0;pointer-events:none;transition:.25s;z-index:20;box-shadow:0 10px 30px rgba(11,31,63,.3)}
 .toast.on{opacity:1;transform:translate(-50%,0)}
 </style>
 </head>
 <body>
 <div class="app">
   <header class="top">
-    <div class="avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div>
-    <div><small>Halo! 📬</small><h1>Temp Mail</h1></div>
-    <button class="bell" id="refresh" aria-label="Segarkan inbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></button>
+    <div class="avatar" aria-hidden="true"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#0b1f3f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div>
+    <div><small>Halo! 📬</small><h1>rramatemp</h1></div>
+    <button class="bell" id="refresh" aria-label="Segarkan inbox"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#0b1f3f" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a9 9 0 1 1-3-6.7"/><path d="M21 3v6h-6"/></svg></button>
   </header>
 
   <section class="view on" id="v-home">
     <div class="row">
-      <div class="card orange">
+      <div class="card navy">
         <h2>Email<br>Aktif</h2>
         <button class="pill" id="copyMail"><span class="ck" id="mailCk"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"/></svg></span><div><b id="mail">Membuat…</b><span>Ketuk untuk salin</span></div></button>
         <button class="pill" id="copyDom"><span class="ck off"></span><div><b id="dom">—</b><span>Domain</span></div></button>
@@ -127,8 +141,8 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
       </div>
     </div>
 
-    <div class="cream">
-      <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#0c0c0e" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16v12H4z"/><path d="M4 16l4-4 3 3 4-5 5 6"/></svg></div>
+    <div class="inbox">
+      <div class="badge"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="3"/><path d="m3 8 9 6 9-6"/></svg></div>
       <div><h3>Inbox</h3><p id="sub">Menunggu email…</p></div>
       <div class="ring"><svg width="54" height="54" viewBox="0 0 54 54"><circle class="bg" cx="27" cy="27" r="22"/><circle class="fg" id="fg" cx="27" cy="27" r="22" stroke-dasharray="138.2" stroke-dashoffset="0"/></svg><b id="cnt">0</b></div>
     </div>
@@ -137,35 +151,30 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
     <div class="tl" id="list"></div>
   </section>
 
-    <section class="view" id="v-acc">
+  <section class="view" id="v-acc">
     <div class="sec" style="margin-top:6px"><h2>Akun Temp</h2><span id="accN"></span></div>
     <div id="accList"></div>
     <button class="btn o" id="addAcc">+ Tambah akun</button>
   </section>
 
-  <section class="view" id="v-dom">
-    <div class="sec" style="margin-top:6px"><h2>Domain Tersedia</h2><span id="domN"></span></div>
-    <div id="domList"></div>
-  </section>
 
   <section class="view" id="v-set">
     <div class="sec" style="margin-top:6px"><h2>Pengaturan</h2></div>
     <div class="box"><h3>Token mailbox</h3><p id="tok">—</p><button class="btn" id="copyTok">Salin token</button></div>
     <div class="box"><h3>Auto-refresh</h3><p>Cek pesan baru setiap 6 detik.</p><button class="btn" id="toggle">Jeda</button></div>
-    <div class="box"><h3>Hapus semua akun</h3><p>Hapus semua akun yang tersimpan di browser ini dan mulai dari satu akun baru.</p><button class="btn o" id="reset">Reset</button></div>
+    <div class="box"><h3>Hapus semua akun</h3><p>Hapus semua akun yang tersimpan di browser ini dan mulai dari satu akun baru.</p><button class="btn dg" id="reset">Reset</button></div>
   </section>
 </div>
 
 <nav class="nav" aria-label="Navigasi">
   <button data-v="home" aria-label="Inbox" class="on"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/></svg></span><span class="lb">Inbox</span></button>
   <button data-v="acc" aria-label="Akun"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></span><span class="lb">Akun</span></button>
-  <button data-v="dom" aria-label="Domain"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="lb">Domain</span></button>
   <button data-v="set" aria-label="Setelan"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span><span class="lb">Setelan</span></button>
 </nav>
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true">
   <div class="panel">
-    <div class="ph"><div style="flex:1;min-width:0"><h3 id="mSub"></h3><small id="mFrom"></small></div><button class="x" id="close" aria-label="Tutup"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
+    <div class="ph"><div style="flex:1;min-width:0"><h3 id="mSub"></h3><small id="mFrom"></small></div><button class="x" id="close" aria-label="Tutup"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#0b1f3f" stroke-width="2.6" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg></button></div>
     <div class="otpbar" id="otpbar"><span>Kode OTP<br><b id="otpv"></b></span><button id="copyOtp">Salin</button></div>
     <iframe id="frame" sandbox="" title="Isi email"></iframe>
   </div>
@@ -176,7 +185,7 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
 const POLL = 6, CIRC = 138.2, MAX = 10;
-let accounts = [], active = 0, paused = false, tick = POLL, msgs = [];
+let accounts = [], active = 0, paused = false, tick = POLL, msgs = [], openId = null;
 const seen = {};
 
 const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
@@ -271,95 +280,122 @@ function render() {
   }
   $('list').innerHTML = msgs.map((m) => {
     const otp = otpOf((m.subject || '') + ' ' + (m.bodyPreview || ''));
-    return `<button class="item ${sn.has(idOf(m)) ? '' : 'new'}" data-id="${esc(idOf(m))}">
+    return `<button class="item ${sn.has(idOf(m)) ? '' : 'new'}" data-id="${esc(idOf(m))}" data-otp="${otp || ''}">
       <span class="dot">${esc(fromOf(m).trim().charAt(0).toUpperCase() || '?')}</span>
       <span class="meta"><b>${esc(m.subject || '(tanpa subjek)')}</b><span>${esc(fromOf(m))}</span></span>
-      <span class="right"><time>${esc(timeOf(m))}</time><span class="${otp ? 'otp' : 'open'}">${otp ? esc(otp) : 'Buka'}</span></span></button>`;
+      <span class="right"><time>${esc(timeOf(m))}</time>${otp ? `<span class="otp">${otp}</span>` : '<span class="open">Buka</span>'}</span>
+    </button>`;
   }).join('');
 }
 
+/* ---------- bagian di bawah ini disusun ulang (file asli terpotong) ---------- */
+
 function renderAcc() {
-  $('accN').textContent = accounts.length + ' / ' + MAX;
-  $('addAcc').style.display = accounts.length >= MAX ? 'none' : '';
+  $('accN').textContent = accounts.length + '/' + MAX;
   $('accList').innerHTML = accounts.map((a, i) => {
-    const c = i === active ? msgs.length : a.count;
-    const badge = a.expired ? '<span class="n ex">Mati</span>' : `<span class="n ${c ? '' : 'z'}">${c ?? '·'}</span>`;
-    return `<div class="acc ${i === active ? 'on' : ''}" role="button" tabindex="0" data-i="${i}">
+    const badge = a.expired ? '<span class="n ex">habis</span>' : `<span class="n ${a.count ? '' : 'z'}">${a.count || 0}</span>`;
+    return `<div class="acc ${i === active ? 'on' : ''}" data-i="${i}" role="button" tabindex="0">
       <span class="av">${esc((a.address || '?').charAt(0).toUpperCase())}</span>
-      <span class="t"><b>${esc(a.address || 'Akun ' + (i + 1))}</b><span>${i === active ? 'Sedang dipakai' : 'Ketuk untuk pakai'}</span></span>
+      <span class="t"><b>${esc(a.address || 'Akun ' + (i + 1))}</b><span>${i === active ? 'Aktif' : 'Ketuk untuk pakai'}</span></span>
       ${badge}
-      <button class="del" data-del="${i}" aria-label="Hapus akun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>`;
+      <button class="del" data-del="${i}" aria-label="Hapus akun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button>
+    </div>`;
   }).join('');
 }
 
 async function refreshCounts() {
   await Promise.all(accounts.map(async (a, i) => {
-    if (i === active || a.expired) return;
+    if (a.expired || i === active) return;
     try { a.count = toList(await api('messages', {}, a.token)).length; }
     catch (e) { if (/401|403|token|unauthor/i.test(e.message)) a.expired = true; }
   }));
   save(); renderAcc();
 }
 
-async function openMsg(id) {
-  const a = cur(); seenOf(a).add(id); render();
-  const base = msgs.find((m) => idOf(m) === id) || {};
-  $('mSub').textContent = base.subject || '(tanpa subjek)'; $('mFrom').textContent = fromOf(base);
-  $('otpbar').classList.remove('on');
-  $('frame').srcdoc = '<body style="font-family:sans-serif;color:#555;padding:20px">Memuat…</body>';
-  $('sheet').classList.add('on');
-  try {
-    const m = await api('messages/' + encodeURIComponent(id));
-    let html = m.bodyHtml || m.html || '';
-    const text = m.bodyPlain || m.text || m.bodyPreview || base.bodyPreview || '';
-    if (!html && !text) html = '<pre style="white-space:pre-wrap;font-family:inherit">' + esc((await api('messages/' + encodeURIComponent(id) + '/source')).source) + '</pre>';
-    $('frame').srcdoc = html || '<pre style="white-space:pre-wrap;font-family:sans-serif;padding:16px">' + esc(text) + '</pre>';
-    const otp = otpOf((m.subject || '') + ' ' + text + ' ' + html.replace(/<[^>]+>/g, ' '));
-    $('otpbar').classList.toggle('on', !!otp); $('otpv').textContent = otp || '';
-  } catch (e) { $('frame').srcdoc = '<body style="font-family:sans-serif;padding:20px">' + esc(e.message) + '</body>'; }
-}
-
-async function loadDomains() {
-  try {
-    const d = await api('domains'); const arr = Array.isArray(d) ? d : d?.domains || [];
-    $('domN').textContent = arr.length + ' domain';
-    $('domList').innerHTML = arr.map((x) => { const n = typeof x === 'string' ? x : x.name || x.domain || JSON.stringify(x); return `<div class="dom"><i>@</i><b>${esc(n)}</b></div>`; }).join('') || '<div class="empty">Tidak ada data domain.</div>';
-  } catch (e) { $('domList').innerHTML = '<div class="empty"><b>Gagal memuat</b>' + esc(e.message) + '</div>'; }
-}
-
 function view(v) {
   document.querySelectorAll('.view').forEach((e) => e.classList.toggle('on', e.id === 'v-' + v));
   document.querySelectorAll('.nav button').forEach((b) => b.classList.toggle('on', b.dataset.v === v));
-  window.scrollTo(0, 0);
-  if (v === 'dom') loadDomains();
   if (v === 'acc') { renderAcc(); refreshCounts(); }
+  if (v === 'set') renderHead();
+  window.scrollTo(0, 0);
 }
 
-function loop() {
-  if (!paused) { tick--; if (tick <= 0) { tick = POLL; poll(); } }
-  $('fg').style.strokeDashoffset = CIRC * (1 - tick / POLL);
-}
+const wrapDoc = (b) => '<!doctype html><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><style>body{margin:0;padding:16px;font:14px/1.5 system-ui,sans-serif;color:#0f1b33;word-break:break-word}img{max-width:100%;height:auto}pre{white-space:pre-wrap;font:inherit}</style>' + b;
+const stripTags = (h) => String(h || '').replace(/<style[\s\S]*?<\/style>/gi, ' ').replace(/<[^>]+>/g, ' ');
 
-document.querySelectorAll('.nav button').forEach((b) => b.onclick = () => view(b.dataset.v));
-$('list').onclick = (e) => { const b = e.target.closest('.item'); if (b) openMsg(b.dataset.id); };
-$('accList').onclick = (e) => {
-  const d = e.target.closest('[data-del]');
-  if (d) { e.stopPropagation(); if (confirm('Hapus akun ini?')) removeAccount(+d.dataset.del); return; }
-  const c = e.target.closest('.acc'); if (c) switchTo(+c.dataset.i);
+async function openMsg(id) {
+  const a = cur(), m = msgs.find((x) => String(idOf(x)) === String(id));
+  if (!a || !m) return;
+  openId = String(id);
+  seenOf(a).add(idOf(m)); render();
+  $('mSub').textContent = m.subject || '(tanpa subjek)';
+  $('mFrom').textContent = fromOf(m);
+  $('otpbar').classList.remove('on');
+  $('frame').srcdoc = wrapDoc('<p style="color:#7b8497">Memuat…</p>');
+  $('sheet').classList.add('on');
+  let html = '', text = m.bodyPreview || '';
+  try {
+    const d = await api('messages/' + encodeURIComponent(id));
+    html = d.bodyHtml || d.html || d.body || '';
+    text = d.bodyPreview || d.text || text;
+  } catch (e) { toast(e.message); }
+  if (openId !== String(id)) return;
+  const body = html ? (/<[a-z][\s\S]*>/i.test(html) ? html : '<pre>' + esc(html) + '</pre>') : '<pre>' + esc(text || '(kosong)') + '</pre>';
+  $('frame').srcdoc = wrapDoc(body);
+  const otp = otpOf((m.subject || '') + ' ' + stripTags(html || text));
+  if (otp) { $('otpv').textContent = otp; $('otpbar').classList.add('on'); }
+}
+function closeMsg() { openId = null; $('sheet').classList.remove('on'); $('frame').srcdoc = ''; }
+
+/* ---------- events ---------- */
+$('list').onclick = (e) => {
+  const it = e.target.closest('.item'); if (!it) return;
+  if (e.target.closest('.otp') && it.dataset.otp) { copy(it.dataset.otp, 'OTP'); return; }
+  openMsg(it.dataset.id);
 };
-$('close').onclick = () => $('sheet').classList.remove('on');
-$('sheet').onclick = (e) => { if (e.target.id === 'sheet') $('sheet').classList.remove('on'); };
+$('accList').onclick = (e) => {
+  const del = e.target.closest('[data-del]');
+  if (del) { e.stopPropagation(); removeAccount(+del.dataset.del); return; }
+  const row = e.target.closest('.acc'); if (row) switchTo(+row.dataset.i);
+};
+$('accList').onkeydown = (e) => {
+  if (e.key !== 'Enter' || e.target.closest('.del')) return;
+  const row = e.target.closest('.acc'); if (row) switchTo(+row.dataset.i);
+};
+document.querySelectorAll('.nav button').forEach((b) => (b.onclick = () => view(b.dataset.v)));
 $('copyMail').onclick = () => cur()?.address && copy(cur().address, 'Email');
-$('copyDom').onclick = () => cur()?.address && copy(cur().address.split('@')[1], 'Domain');
+$('copyDom').onclick = () => { const d = (cur()?.address || '').split('@')[1]; if (d) copy(d, 'Domain'); };
+$('newMail').onclick = () => addAccount();
+$('addAcc').onclick = () => addAccount();
+$('copyTok').onclick = () => cur()?.token && copy(cur().token, 'Token');
 $('copyOtp').onclick = () => copy($('otpv').textContent, 'OTP');
-$('copyTok').onclick = () => cur() && copy(cur().token, 'Token');
-$('newMail').onclick = async () => { if (await addAccount()) await poll(); };
-$('addAcc').onclick = async () => { if (await addAccount()) { await poll(); view('home'); } };
-$('reset').onclick = async () => { if (!confirm('Hapus semua akun?')) return; accounts = []; active = 0; msgs = []; save(); await addAccount(); await poll(); view('home'); };
-$('toggle').onclick = () => { paused = !paused; $('toggle').textContent = paused ? 'Lanjutkan' : 'Jeda'; $('auto').textContent = paused ? 'auto-refresh jeda' : 'auto-refresh 6 dtk'; };
-$('refresh').onclick = async () => { $('refresh').classList.add('spin'); tick = POLL; await poll(); setTimeout(() => $('refresh').classList.remove('spin'), 500); };
+$('close').onclick = closeMsg;
+$('sheet').onclick = (e) => { if (e.target === $('sheet')) closeMsg(); };
+document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeMsg(); });
+$('refresh').onclick = () => {
+  const b = $('refresh'); b.classList.add('spin'); setTimeout(() => b.classList.remove('spin'), 500);
+  tick = POLL; poll();
+};
+$('toggle').onclick = () => {
+  paused = !paused;
+  $('toggle').textContent = paused ? 'Lanjut' : 'Jeda';
+  $('auto').textContent = paused ? 'auto-refresh dijeda' : 'auto-refresh ' + POLL + ' dtk';
+  if (!paused) tick = POLL;
+};
+$('reset').onclick = async () => {
+  if (!confirm('Hapus semua akun di browser ini?')) return;
+  accounts = []; active = 0; msgs = []; Object.keys(seen).forEach((k) => delete seen[k]);
+  save(); renderAcc(); await addAccount(); view('home');
+};
 
-init(); setInterval(loop, 1000);
+setInterval(() => {
+  if (paused || document.hidden) return;
+  tick--;
+  $('fg').style.strokeDashoffset = (CIRC * (1 - Math.max(tick, 0) / POLL)).toFixed(1);
+  if (tick <= 0) { tick = POLL; poll(); }
+}, 1000);
+
+init();
 </script>
 </body>
 </html>
