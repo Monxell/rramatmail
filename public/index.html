@@ -66,13 +66,21 @@ button:focus-visible{outline:2px solid var(--yellow);outline-offset:2px}
 .empty{background:var(--panel);border-radius:26px;padding:26px 20px;text-align:center;color:var(--mute);font-size:14px;line-height:1.5}
 .empty b{color:#fff;display:block;font-size:16px;margin-bottom:4px}
 
-.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 16px);width:min(428px,calc(100% - 32px));display:flex;align-items:center;gap:6px;background:var(--panel);border-radius:50px;padding:6px;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.6)}
-.nav button{width:50px;height:50px;border-radius:50%;display:grid;place-items:center;color:#cfcfd4;flex:none}
-.nav button.on{width:auto;flex:1;display:flex;gap:10px;justify-content:flex-start;padding:0 20px 0 6px;background:#0c0c0e;color:#fff;font-weight:600;font-size:16px}
-.nav button.on i{width:40px;height:40px;border-radius:50%;background:var(--yellow);color:var(--ink);display:grid;place-items:center}
-.nav button:not(.on) i{display:contents}.nav button:not(.on) em{display:none}
-.nav .gap{flex:1}
-
+.nav{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(env(safe-area-inset-bottom) + 14px);width:min(428px,calc(100% - 28px));display:flex;align-items:center;gap:4px;background:var(--panel);border-radius:50px;padding:6px;z-index:5;box-shadow:0 10px 30px rgba(0,0,0,.6)}
+.nav button{flex:none;width:48px;height:48px;border-radius:50%;display:flex;align-items:center;justify-content:center;gap:10px;color:#cfcfd4;font-weight:700;font-size:15px;white-space:nowrap;transition:background .2s,color .2s}
+.nav button.on{flex:1;width:auto;justify-content:flex-start;padding:0 16px 0 4px;border-radius:44px;background:var(--ink);color:#fff}
+.nav .ic{width:40px;height:40px;border-radius:50%;display:grid;place-items:center;flex:none}
+.nav button.on .ic{background:var(--yellow);color:var(--ink)}
+.nav .lb{display:none}.nav button.on .lb{display:inline}
+.acc{display:flex;align-items:center;gap:12px;background:var(--panel);border:2px solid transparent;border-radius:26px;padding:12px 12px 12px 14px;margin-bottom:10px;width:100%;text-align:left}
+.acc.on{border-color:var(--orange)}
+.acc .av{flex:none;width:40px;height:40px;border-radius:50%;background:var(--blue);color:var(--ink);display:grid;place-items:center;font-weight:800}
+.acc.on .av{background:var(--orange);color:#fff}
+.acc .t{flex:1;min-width:0}.acc .t b{display:block;font-size:14.5px;font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.acc .t span{font-size:12px;color:var(--mute)}
+.acc .n{flex:none;min-width:28px;height:28px;border-radius:14px;background:var(--green);color:var(--ink);font-weight:800;font-size:13px;display:grid;place-items:center;padding:0 8px}
+.acc .n.z{background:#26262b;color:var(--mute)}.acc .n.ex{background:#3a1e14;color:#ff8a5c;font-size:11px}
+.acc .del{flex:none;width:36px;height:36px;border-radius:50%;background:#26262b;display:grid;place-items:center;color:#ff8a5c}
 .view{display:none}.view.on{display:block}
 .dom{display:flex;align-items:center;gap:12px;background:var(--panel);border-radius:22px;padding:14px 16px;margin-bottom:10px;width:100%;text-align:left}
 .dom i{width:36px;height:36px;border-radius:50%;background:var(--blue);color:var(--ink);display:grid;place-items:center;font-style:normal;font-weight:800}
@@ -114,7 +122,7 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
       </div>
       <div class="card blue">
         <small id="today"></small>
-        <h2>Ganti Alamat Email Baru</h2>
+        <h2>Tambah Akun Email Baru</h2>
         <button class="start" id="newMail">Buat <i><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg></i></button>
       </div>
     </div>
@@ -129,6 +137,12 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
     <div class="tl" id="list"></div>
   </section>
 
+    <section class="view" id="v-acc">
+    <div class="sec" style="margin-top:6px"><h2>Akun Temp</h2><span id="accN"></span></div>
+    <div id="accList"></div>
+    <button class="btn o" id="addAcc">+ Tambah akun</button>
+  </section>
+
   <section class="view" id="v-dom">
     <div class="sec" style="margin-top:6px"><h2>Domain Tersedia</h2><span id="domN"></span></div>
     <div id="domList"></div>
@@ -138,14 +152,15 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
     <div class="sec" style="margin-top:6px"><h2>Pengaturan</h2></div>
     <div class="box"><h3>Token mailbox</h3><p id="tok">—</p><button class="btn" id="copyTok">Salin token</button></div>
     <div class="box"><h3>Auto-refresh</h3><p>Cek pesan baru setiap 6 detik.</p><button class="btn" id="toggle">Jeda</button></div>
-    <div class="box"><h3>Hapus data</h3><p>Hapus token yang tersimpan di browser ini dan buat mailbox baru.</p><button class="btn o" id="reset">Reset</button></div>
+    <div class="box"><h3>Hapus semua akun</h3><p>Hapus semua akun yang tersimpan di browser ini dan mulai dari satu akun baru.</p><button class="btn o" id="reset">Reset</button></div>
   </section>
 </div>
 
 <nav class="nav" aria-label="Navigasi">
-  <button class="on" data-v="home"><i><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/></svg></i><em>Inbox</em></button>
-  <button data-v="dom" aria-label="Domain"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></i><em>Domain</em></button>
-  <button data-v="set" aria-label="Pengaturan"><i><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></i><em>Akun</em></button>
+  <button data-v="home" aria-label="Inbox" class="on"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 11l8-7 8 7v9H4z"/></svg></span><span class="lb">Inbox</span></button>
+  <button data-v="acc" aria-label="Akun"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="4"/><path d="M4 21c1-5 15-5 16 0"/></svg></span><span class="lb">Akun</span></button>
+  <button data-v="dom" aria-label="Domain"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M3 12h18M12 3c3 3 3 15 0 18M12 3c-3 3-3 15 0 18"/></svg></span><span class="lb">Domain</span></button>
+  <button data-v="set" aria-label="Setelan"><span class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M5 5l2 2M17 17l2 2M19 5l-2 2M7 17l-2 2"/></svg></span><span class="lb">Setelan</span></button>
 </nav>
 
 <div class="sheet" id="sheet" role="dialog" aria-modal="true">
@@ -160,13 +175,18 @@ iframe{flex:1;margin-top:14px;border:0;border-radius:20px;background:#fff;width:
 <script>
 const $ = (id) => document.getElementById(id);
 const esc = (s) => String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
-const POLL = 6, CIRC = 138.2;
-let token = null, address = '', seen = new Set(), paused = false, tick = POLL, msgs = [];
+const POLL = 6, CIRC = 138.2, MAX = 10;
+let accounts = [], active = 0, paused = false, tick = POLL, msgs = [];
+const seen = {};
 
 const store = { get: (k) => { try { return localStorage.getItem(k); } catch { return null; } }, set: (k, v) => { try { v == null ? localStorage.removeItem(k) : localStorage.setItem(k, v); } catch {} } };
+const cur = () => accounts[active];
+const save = () => { store.set('tm_accounts', JSON.stringify(accounts)); store.set('tm_active', String(active)); };
+const seenOf = (a) => (seen[a.token] ||= new Set());
 
-async function api(path, opt = {}) {
-  const r = await fetch('/api/' + path, { ...opt, headers: { ...(token ? { Authorization: 'Bearer ' + token } : {}), ...(opt.headers || {}) } });
+async function api(path, opt = {}, tk) {
+  const t = tk === undefined ? cur()?.token : tk;
+  const r = await fetch('/api/' + path, { ...opt, headers: { ...(t ? { Authorization: 'Bearer ' + t } : {}), ...(opt.headers || {}) } });
   const j = await r.json().catch(() => ({}));
   if (!r.ok) throw new Error(j.error || 'Terjadi kesalahan (' + r.status + ')');
   return j;
@@ -180,60 +200,112 @@ const fromOf = (m) => (typeof m.from === 'string' ? m.from : m.from?.address || 
 const idOf = (m) => m._id || m.id;
 const otpOf = (t) => { const x = String(t || '').match(/\b(\d{4,8})\b/); return x ? x[1] : null; };
 
-function setMailbox(m) {
-  address = pickAddr(m) || address;
-  $('mail').textContent = address || '—';
-  $('dom').textContent = address.split('@')[1] || '—';
-  $('tok').textContent = token || '—';
+function renderHead() {
+  const a = cur(), addr = a?.address || '';
+  $('mail').textContent = addr || 'Membuat…';
+  $('dom').textContent = addr.split('@')[1] || '—';
+  $('tok').textContent = a?.token || '—';
 }
 
-async function newMailbox() {
-  $('mail').textContent = 'Membuat…'; seen = new Set(); msgs = []; render();
+async function addAccount() {
+  if (accounts.length >= MAX) { toast('Maksimal ' + MAX + ' akun'); return false; }
+  $('mail').textContent = 'Membuat…';
   try {
-    const m = await api('mailbox', { method: 'POST' });
-    token = m.token || m.access_token; store.set('tm_token', token); store.set('tm_addr', pickAddr(m));
-    setMailbox(m); toast('Email baru siap');
-  } catch (e) { $('mail').textContent = 'Gagal'; toast(e.message); }
+    const m = await api('mailbox', { method: 'POST' }, null);
+    accounts.push({ token: m.token || m.access_token, address: pickAddr(m) });
+    active = accounts.length - 1; save(); msgs = [];
+    renderHead(); render(); renderAcc(); toast('Akun baru siap');
+    return true;
+  } catch (e) { renderHead(); toast(e.message); return false; }
+}
+
+async function switchTo(i) {
+  active = i; save(); msgs = []; tick = POLL;
+  renderHead(); render(); view('home'); await poll();
+}
+
+async function removeAccount(i) {
+  const gone = accounts.splice(i, 1)[0]; delete seen[gone?.token];
+  if (!accounts.length) { active = 0; save(); await addAccount(); return; }
+  if (i < active || active >= accounts.length) active = Math.max(0, active - (i <= active ? 1 : 0));
+  save(); msgs = []; renderHead(); render(); renderAcc(); poll();
 }
 
 async function init() {
   $('today').textContent = new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' });
-  token = store.get('tm_token'); address = store.get('tm_addr') || '';
-  if (token) {
-    try { const m = await api('mailbox'); setMailbox({ mailbox: pickAddr(m) || address }); }
-    catch { token = null; }
-  }
-  if (!token) await newMailbox();
+  try { accounts = JSON.parse(store.get('tm_accounts') || '[]'); } catch { accounts = []; }
+  const old = store.get('tm_token');
+  if (!accounts.length && old) { accounts = [{ token: old, address: store.get('tm_addr') || '' }]; store.set('tm_token', null); store.set('tm_addr', null); }
+  active = Math.min(parseInt(store.get('tm_active') || '0', 10) || 0, Math.max(0, accounts.length - 1));
+  if (!accounts.length) await addAccount(); else { save(); renderHead(); renderAcc(); }
   await poll();
 }
 
 async function poll() {
-  if (!token) return;
-  try { msgs = toList(await api('messages')); } catch (e) { if (/401|403|token/i.test(e.message)) { token = null; await newMailbox(); } }
+  const a = cur(); if (!a || a.expired) { render(); return; }
+  try {
+    const l = toList(await api('messages'));
+    if (a !== cur()) return;
+    msgs = l; a.count = l.length;
+  } catch (e) {
+    if (/401|403|token|unauthor/i.test(e.message)) { a.expired = true; save(); toast('Akun kedaluwarsa'); renderAcc(); }
+  }
   render();
 }
 
 function render() {
-  const fresh = msgs.filter((m) => !seen.has(idOf(m))).length;
-  $('cnt').textContent = msgs.length;
-  $('sub').textContent = msgs.length ? msgs.length + ' pesan' + (fresh ? ' · ' + fresh + ' baru' : '') : 'Menunggu email masuk…';
+  const a = cur(); if (!a) return;
+  const sn = seenOf(a), n = accounts.length;
+  const pre = n > 1 ? 'Akun ' + (active + 1) + '/' + n + ' · ' : '';
+  $('cnt').textContent = a.expired ? '!' : msgs.length;
+  if (a.expired) {
+    $('sub').textContent = pre + 'kedaluwarsa';
+    $('list').innerHTML = '<div class="empty"><b>Akun kedaluwarsa</b>Mailbox ini sudah tidak aktif. Hapus di tab Akun, lalu tambah akun baru.</div>';
+    return;
+  }
+  const fresh = msgs.filter((m) => !sn.has(idOf(m))).length;
+  $('sub').textContent = pre + (msgs.length ? msgs.length + ' pesan' + (fresh ? ' · ' + fresh + ' baru' : '') : 'menunggu email…');
   if (!msgs.length) {
     $('list').innerHTML = '<div class="empty"><b>Belum ada pesan</b>Pakai alamat di atas untuk daftar atau verifikasi. Email yang masuk muncul di sini otomatis.</div>';
     return;
   }
   $('list').innerHTML = msgs.map((m) => {
     const otp = otpOf((m.subject || '') + ' ' + (m.bodyPreview || ''));
-    return `<button class="item ${seen.has(idOf(m)) ? '' : 'new'}" data-id="${esc(idOf(m))}">
+    return `<button class="item ${sn.has(idOf(m)) ? '' : 'new'}" data-id="${esc(idOf(m))}">
       <span class="dot">${esc(fromOf(m).trim().charAt(0).toUpperCase() || '?')}</span>
       <span class="meta"><b>${esc(m.subject || '(tanpa subjek)')}</b><span>${esc(fromOf(m))}</span></span>
       <span class="right"><time>${esc(timeOf(m))}</time><span class="${otp ? 'otp' : 'open'}">${otp ? esc(otp) : 'Buka'}</span></span></button>`;
   }).join('');
 }
 
+function renderAcc() {
+  $('accN').textContent = accounts.length + ' / ' + MAX;
+  $('addAcc').style.display = accounts.length >= MAX ? 'none' : '';
+  $('accList').innerHTML = accounts.map((a, i) => {
+    const c = i === active ? msgs.length : a.count;
+    const badge = a.expired ? '<span class="n ex">Mati</span>' : `<span class="n ${c ? '' : 'z'}">${c ?? '·'}</span>`;
+    return `<div class="acc ${i === active ? 'on' : ''}" role="button" tabindex="0" data-i="${i}">
+      <span class="av">${esc((a.address || '?').charAt(0).toUpperCase())}</span>
+      <span class="t"><b>${esc(a.address || 'Akun ' + (i + 1))}</b><span>${i === active ? 'Sedang dipakai' : 'Ketuk untuk pakai'}</span></span>
+      ${badge}
+      <button class="del" data-del="${i}" aria-label="Hapus akun"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16M10 11v6M14 11v6M6 7l1 13h10l1-13M9 7V4h6v3"/></svg></button></div>`;
+  }).join('');
+}
+
+async function refreshCounts() {
+  await Promise.all(accounts.map(async (a, i) => {
+    if (i === active || a.expired) return;
+    try { a.count = toList(await api('messages', {}, a.token)).length; }
+    catch (e) { if (/401|403|token|unauthor/i.test(e.message)) a.expired = true; }
+  }));
+  save(); renderAcc();
+}
+
 async function openMsg(id) {
-  seen.add(id); render();
+  const a = cur(); seenOf(a).add(id); render();
   const base = msgs.find((m) => idOf(m) === id) || {};
   $('mSub').textContent = base.subject || '(tanpa subjek)'; $('mFrom').textContent = fromOf(base);
+  $('otpbar').classList.remove('on');
   $('frame').srcdoc = '<body style="font-family:sans-serif;color:#555;padding:20px">Memuat…</body>';
   $('sheet').classList.add('on');
   try {
@@ -242,7 +314,7 @@ async function openMsg(id) {
     const text = m.bodyPlain || m.text || m.bodyPreview || base.bodyPreview || '';
     if (!html && !text) html = '<pre style="white-space:pre-wrap;font-family:inherit">' + esc((await api('messages/' + encodeURIComponent(id) + '/source')).source) + '</pre>';
     $('frame').srcdoc = html || '<pre style="white-space:pre-wrap;font-family:sans-serif;padding:16px">' + esc(text) + '</pre>';
-    const otp = otpOf(m.subject + ' ' + text + ' ' + html.replace(/<[^>]+>/g, ' '));
+    const otp = otpOf((m.subject || '') + ' ' + text + ' ' + html.replace(/<[^>]+>/g, ' '));
     $('otpbar').classList.toggle('on', !!otp); $('otpv').textContent = otp || '';
   } catch (e) { $('frame').srcdoc = '<body style="font-family:sans-serif;padding:20px">' + esc(e.message) + '</body>'; }
 }
@@ -258,26 +330,32 @@ async function loadDomains() {
 function view(v) {
   document.querySelectorAll('.view').forEach((e) => e.classList.toggle('on', e.id === 'v-' + v));
   document.querySelectorAll('.nav button').forEach((b) => b.classList.toggle('on', b.dataset.v === v));
+  window.scrollTo(0, 0);
   if (v === 'dom') loadDomains();
+  if (v === 'acc') { renderAcc(); refreshCounts(); }
 }
 
 function loop() {
-  if (!paused) {
-    tick--; if (tick <= 0) { tick = POLL; poll(); }
-  }
+  if (!paused) { tick--; if (tick <= 0) { tick = POLL; poll(); } }
   $('fg').style.strokeDashoffset = CIRC * (1 - tick / POLL);
 }
 
 document.querySelectorAll('.nav button').forEach((b) => b.onclick = () => view(b.dataset.v));
 $('list').onclick = (e) => { const b = e.target.closest('.item'); if (b) openMsg(b.dataset.id); };
+$('accList').onclick = (e) => {
+  const d = e.target.closest('[data-del]');
+  if (d) { e.stopPropagation(); if (confirm('Hapus akun ini?')) removeAccount(+d.dataset.del); return; }
+  const c = e.target.closest('.acc'); if (c) switchTo(+c.dataset.i);
+};
 $('close').onclick = () => $('sheet').classList.remove('on');
 $('sheet').onclick = (e) => { if (e.target.id === 'sheet') $('sheet').classList.remove('on'); };
-$('copyMail').onclick = () => address && copy(address, 'Email');
-$('copyDom').onclick = () => address && copy(address.split('@')[1], 'Domain');
+$('copyMail').onclick = () => cur()?.address && copy(cur().address, 'Email');
+$('copyDom').onclick = () => cur()?.address && copy(cur().address.split('@')[1], 'Domain');
 $('copyOtp').onclick = () => copy($('otpv').textContent, 'OTP');
-$('copyTok').onclick = () => token && copy(token, 'Token');
-$('newMail').onclick = async () => { await newMailbox(); await poll(); };
-$('reset').onclick = async () => { store.set('tm_token', null); store.set('tm_addr', null); token = null; await newMailbox(); view('home'); };
+$('copyTok').onclick = () => cur() && copy(cur().token, 'Token');
+$('newMail').onclick = async () => { if (await addAccount()) await poll(); };
+$('addAcc').onclick = async () => { if (await addAccount()) { await poll(); view('home'); } };
+$('reset').onclick = async () => { if (!confirm('Hapus semua akun?')) return; accounts = []; active = 0; msgs = []; save(); await addAccount(); await poll(); view('home'); };
 $('toggle').onclick = () => { paused = !paused; $('toggle').textContent = paused ? 'Lanjutkan' : 'Jeda'; $('auto').textContent = paused ? 'auto-refresh jeda' : 'auto-refresh 6 dtk'; };
 $('refresh').onclick = async () => { $('refresh').classList.add('spin'); tick = POLL; await poll(); setTimeout(() => $('refresh').classList.remove('spin'), 500); };
 
