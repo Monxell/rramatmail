@@ -383,7 +383,7 @@ $('toggle').onclick = () => {
   if (!paused) tick = POLL;
 };
 $('reset').onclick = async () => {
-  if (!confirm('Hapus semua akun di browser ini?')) return;
+  if (!confirm('Hapus semua akun di browser ini??')) return;
   accounts = []; active = 0; msgs = []; Object.keys(seen).forEach((k) => delete seen[k]);
   save(); renderAcc(); await addAccount(); view('home');
 };
